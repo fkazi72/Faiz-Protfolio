@@ -32,9 +32,9 @@ const ProjectDetailContent: React.FC = () => {
       longDescription: 'A comprehensive e-commerce platform built with PHP and MySQL, providing a seamless shopping experience with modern features and secure payment processing.',
       images: [
         '/e-comm Login.png',
+        '/Home page.png',
         '/e-comm Categories section.png',
-        '/e-comm Product page.png',
-        '/Home page.png'
+        '/e-comm Product page.png'
       ],
       technologies: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap', 'REST API', 'Payment Gateway'],
       languages: ['PHP', 'JavaScript', 'HTML', 'CSS', 'SQL'],
@@ -229,6 +229,9 @@ const ProjectDetailContent: React.FC = () => {
                 imageTransition ? 'opacity-0 blur-md scale-110' : 'opacity-100 blur-0 scale-100'
               }`}
             />
+            <div className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
+              showText ? 'opacity-100' : 'opacity-0'
+            }`}></div>
             
             {project.images.length > 1 && (
               <>
@@ -255,7 +258,6 @@ const ProjectDetailContent: React.FC = () => {
               </>
             )}
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             <div className={`absolute bottom-6 left-6 text-white transition-all duration-300 ${
               showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}>
@@ -279,7 +281,7 @@ const ProjectDetailContent: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => selectImage(index)}
-                    className={`flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                    className={`relative flex-shrink-0 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                       index === currentImageIndex 
                         ? effectiveTheme === 'dark' ? 'border-purple-400 scale-105' : 'border-purple-500 scale-105'
                         : effectiveTheme === 'dark' ? 'border-gray-600 hover:border-gray-500' : 'border-gray-300 hover:border-gray-400'
@@ -291,6 +293,9 @@ const ProjectDetailContent: React.FC = () => {
                       alt={`${project.title} ${index + 1}`}
                       className="h-full w-auto object-contain"
                     />
+                    <div className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
+                      showText ? 'opacity-100' : 'opacity-0'
+                    }`}></div>
                   </button>
                 ))}
               </div>
