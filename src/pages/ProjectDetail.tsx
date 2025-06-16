@@ -11,6 +11,18 @@ const ProjectDetailContent: React.FC = () => {
   const { effectiveTheme } = useTheme();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageTransition, setImageTransition] = useState(false);
+  const [showText, setShowText] = useState(true);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  // Function to handle showing text after delay
+  const handleShowTextAfterDelay = () => {
+    if (timeoutId) clearTimeout(timeoutId);
+    setShowText(false);
+    const newTimeoutId = setTimeout(() => {
+      setShowText(true);
+    }, 5000);
+    setTimeoutId(newTimeoutId);
+  };
 
   // Project data
   const projects = {
@@ -26,7 +38,7 @@ const ProjectDetailContent: React.FC = () => {
       ],
       technologies: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap', 'REST API', 'Payment Gateway'],
       languages: ['PHP', 'JavaScript', 'HTML', 'CSS', 'SQL'],
-      duration: '3 months',
+      duration: '11 months (As Beginner)',
       team: 'Single developer',
       features: [
         'User authentication and authorization',
@@ -66,7 +78,7 @@ const ProjectDetailContent: React.FC = () => {
       ],
       technologies: ['Dart', 'Flutter', 'Socket.io', 'Express', 'PostgreSQL', 'Redis', 'Material-UI'],
       languages: ['Java', 'Dart', 'SQL', 'HTML', 'CSS'],
-      duration: '4 months',
+      duration: '2 months',
       team: 'Single developer',
       features: [
         'Real-time collaboration with Socket.io',
@@ -151,6 +163,7 @@ const ProjectDetailContent: React.FC = () => {
   }
 
   const nextImage = () => {
+    handleShowTextAfterDelay();
     setImageTransition(true);
     setTimeout(() => {
       setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
@@ -159,6 +172,7 @@ const ProjectDetailContent: React.FC = () => {
   };
 
   const prevImage = () => {
+    handleShowTextAfterDelay();
     setImageTransition(true);
     setTimeout(() => {
       setCurrentImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
@@ -168,6 +182,7 @@ const ProjectDetailContent: React.FC = () => {
 
   const selectImage = (index: number) => {
     if (index !== currentImageIndex) {
+      handleShowTextAfterDelay();
       setImageTransition(true);
       setTimeout(() => {
         setCurrentImageIndex(index);
@@ -202,14 +217,17 @@ const ProjectDetailContent: React.FC = () => {
             ? 'bg-gray-800 border-purple-700/30' 
             : 'bg-white border-purple-100'
         }`}>
-          <div className="relative w-full overflow-hidden" style={{ minHeight: "200px" }}>
+          <div 
+            className="relative w-full overflow-hidden flex items-center justify-center bg-gray-900" 
+            style={{ height: "calc(100vh - 400px)", minHeight: "300px" }}
+            onClick={() => handleShowTextAfterDelay()}
+          >
             <img
               src={project.images[currentImageIndex]}
               alt={project.title}
-              className={`w-full h-auto max-h-[80vh] transition-all duration-300 ease-in-out ${
+              className={`max-w-full max-h-full object-contain transition-all duration-300 ease-in-out ${
                 imageTransition ? 'opacity-0 blur-md scale-110' : 'opacity-100 blur-0 scale-100'
               }`}
-              style={{ objectFit: "contain" }}
             />
             
             {project.images.length > 1 && (
@@ -238,9 +256,11 @@ const ProjectDetailContent: React.FC = () => {
             )}
             
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-            <div className="absolute bottom-6 left-6 text-white">
-              <h1 className="text-4xl font-bold mb-2">{project.title}</h1>
-              <p className="text-xl opacity-90">{project.description}</p>
+            <div className={`absolute bottom-6 left-6 text-white transition-all duration-300 ${
+              showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">{project.title}</h1>
+              <p className="text-sm md:text-lg lg:text-xl opacity-90">{project.description}</p>
             </div>
           </div>
           
